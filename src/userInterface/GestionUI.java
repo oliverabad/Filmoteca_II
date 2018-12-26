@@ -1,6 +1,5 @@
 package userInterface;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
@@ -39,11 +38,7 @@ public class GestionUI {
 		String[] list = datos.split("_");
 		String nom = list[0];
 		String apellidos = list[1];
-		try {
-			director = dirDAO.findDirector(nom, apellidos);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		director = dirDAO.findDirector(nom, apellidos);
 		return director;
 	}
 

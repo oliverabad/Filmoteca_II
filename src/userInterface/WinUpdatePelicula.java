@@ -55,9 +55,7 @@ public class WinUpdatePelicula extends JDialog {
 		comboBoxDirector.addItemListener(new java.awt.event.ItemListener() {
 			public void itemStateChanged(java.awt.event.ItemEvent evt) {
 				dirPeliItemStateChange(evt);
-
 			}
-
 		});
 		comboBoxDirector.setBounds(198, 23, 208, 22);
 		getContentPane().add(comboBoxDirector);
@@ -148,9 +146,11 @@ public class WinUpdatePelicula extends JDialog {
 		public void actionPerformed(ActionEvent e) {
 			director = gestion.selectItemDirector(comboBoxDirector);
 			String titulo = gestion.selectItemDirPeli(comboBoxPelicula);
-			pelicula = peliDAO.findPeliByTitulo(titulo, director.getId());
-			// Acuerdate que el título de la película está seleccionada en el item
-			// System.out.println(pelicula.getId_dir());
+			pelicula = peliDAO.findPeliByTitulo(titulo, director);
+			pelicula.setTitulo(textTitulo.getText());
+			pelicula.setPais(textPais.getText());
+			pelicula.setDuracion(textDuracion.getText());
+			pelicula.setGenero(textGenero.getText());
 			peliDAO.UpdatePelicula(pelicula);
 			dispose();
 		}

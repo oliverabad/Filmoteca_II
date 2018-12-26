@@ -71,29 +71,24 @@ public class DirectorDAO {
 		return misDirectores;
 	}
 
-	public int updateDirector(Director d) {
+	public void updateDirector(Director d) {
 		String query = "update director set nombre = ?, apellidos = ? where id_director = ?";
-		int result = 0;
 		try {
 			pstmt = dao.connectDB().prepareStatement(query);
 			pstmt.setString(1, d.getNombre());
 			pstmt.setString(2, d.getApellidos());
 			pstmt.setInt(3, d.getId());
-			result = pstmt.executeUpdate();
+			pstmt.executeUpdate();
+			pstmt.close();
+			dao.closeDB();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-		}
-		if (result > 0) {
-			return result;
-		} else {
-			return 0;
 		}
 
 	}
 
-	public Director findDirector(String nom, String apellidos) throws SQLException {
-		Director director;
-		String query = "Select * from director where nombre = '" + nom + "' && apellidos = '" + apellidos + "'";
+	public Director findDirectorById(int id) {
+		String query = "Select * from director where id_director = " + id;
 		try {
 			stmt = dao.connectDB().createStatement();
 			rs = stmt.executeQuery(query);
@@ -104,8 +99,44 @@ public class DirectorDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} finally {
-			rs.close();
-			stmt.close();
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			dao.closeDB();
+		}
+		return null;
+
+	}
+
+	public Director findDirector(String nom, String apellidos) {
+		String query = "Select * from director where nombre = '" + nom + "' and apellidos = '" + apellidos + "'";
+		try {
+			stmt = dao.connectDB().createStatement();
+			rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				director = new Director(rs.getInt("id_director"), rs.getString("nombre"), rs.getString("apellidos"));
+				return director;
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			dao.closeDB();
 		}
 		return null;

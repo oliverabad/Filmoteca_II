@@ -17,7 +17,7 @@ public class PeliculaDAO {
 	PreparedStatement pstmt;
 	ResultSet rs;
 
-	public int createPelicula(Pelicula p) throws SQLException {
+	public int createPelicula(Pelicula p) {
 		String query = "Insert into pelicula(titulo, id_dir, pais, duracion, genero) values(?,?,?,?,?)";
 		int result = 0;
 		try {
@@ -34,7 +34,11 @@ public class PeliculaDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} finally {
-			pstmt.close();
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			dao.closeDB();
 		}
 		return 0;
@@ -115,9 +119,8 @@ public class PeliculaDAO {
 		return misPelis;
 	}
 
-	public Pelicula findPeliByTitulo(String titulo, int id_dir) {
-		Director d = null;
-		String query = "select * from pelicula where titulo = '" + titulo + "' & id_dir = '" + id_dir + "'";
+	public Pelicula findPeliByTitulo(String titulo, Director d) {
+		String query = "select * from pelicula where titulo = '" + titulo + "' and id_dir = " + d.getId();
 		try {
 			stmt = dao.connectDB().createStatement();
 			rs = stmt.executeQuery(query);
@@ -137,10 +140,3 @@ public class PeliculaDAO {
 	}
 
 }
-/*
- * SELECT pelicula.*, perfiles.nombre FROM perfiles INNER JOIN usuarios ON
- * perfiles.id_perfil = usuarios.id_perfil;
- */
-
-//select p.* from pelicula p inner join director d on (p.id_dir=d.id_director)
-//where p.titulo = 'Torrente III';

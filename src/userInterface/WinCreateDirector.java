@@ -3,7 +3,6 @@ package userInterface;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -80,23 +79,19 @@ public class WinCreateDirector extends JDialog {
 	private class BtnCreateActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
-			try {
-				Director dir = new Director();
-				dir = dirDAO.findDirector(textNom.getText(), textApellidos.getText());
-				if (dir != null) {
-					JOptionPane.showMessageDialog(WinCreateDirector.this,
-							"El Director ya se encuentra en nuestra Base de Datos");
-				} else if (textNom.getText().isEmpty() || textApellidos.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(WinCreateDirector.this,
-							"Debes introducir Nombre y Apellidos del Director");
-				} else {
-					director.setNombre(textNom.getText());
-					director.setApellidos(textApellidos.getText());
-					dirDAO.createDirector(director);
-					dispose();
-				}
-			} catch (SQLException e2) {
-				e2.printStackTrace();
+			Director dir = new Director();
+			dir = dirDAO.findDirector(textNom.getText(), textApellidos.getText());
+			if (dir != null) {
+				JOptionPane.showMessageDialog(WinCreateDirector.this,
+						"El Director ya se encuentra en nuestra Base de Datos");
+			} else if (textNom.getText().isEmpty() || textApellidos.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(WinCreateDirector.this,
+						"Debes introducir Nombre y Apellidos del Director");
+			} else {
+				director.setNombre(textNom.getText());
+				director.setApellidos(textApellidos.getText());
+				dirDAO.createDirector(director);
+				dispose();
 			}
 		}
 	}

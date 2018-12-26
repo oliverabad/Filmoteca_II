@@ -139,11 +139,7 @@ public class WinCreatePelicula extends JDialog {
 			pelicula.setPais(textPais.getText());
 			pelicula.setDuracion(textDuracion.getText());
 			pelicula.setGenero(textGenero.getText());
-			try {
-				peliDAO.createPelicula(pelicula);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
+			peliDAO.createPelicula(pelicula);
 			dispose();
 		}
 	}
