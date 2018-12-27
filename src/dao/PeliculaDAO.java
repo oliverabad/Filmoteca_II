@@ -96,7 +96,7 @@ public class PeliculaDAO {
 
 	}
 
-	public ArrayList<Pelicula> listPeliDirector(int id_dir) {
+	public ArrayList<Pelicula> listPeliDirectorTitulo(int id_dir) {
 		misPelis = new ArrayList<Pelicula>();
 		String query = "Select titulo from pelicula where id_dir = ?";
 		try {
@@ -119,6 +119,85 @@ public class PeliculaDAO {
 		return misPelis;
 	}
 
+	public ArrayList<Pelicula> listPeliDirector(int id_dir) {
+		misPelis = new ArrayList<Pelicula>();
+		String query = "Select * from pelicula where id_dir = ?";
+		try {
+			pstmt = dao.connectDB().prepareStatement(query);
+			pstmt.setInt(1, id_dir);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				pelicula = new Pelicula(rs.getInt("id_pelicula"), rs.getString("titulo"), rs.getInt("id_dir"),
+						rs.getString("pais"), rs.getString("duracion"), rs.getString("genero"));
+				misPelis.add(pelicula);
+			}
+			rs.close();
+			pstmt.close();
+			dao.closeDB();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return misPelis;
+	}
+
+	public ArrayList<Pelicula> listPeliGenero(String genero) {
+		misPelis = new ArrayList<Pelicula>();
+		String query = "Select * from pelicula where genero = ?";
+
+		try {
+			pstmt = dao.connectDB().prepareStatement(query);
+			pstmt.setString(1, genero);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				pelicula = new Pelicula(rs.getInt("id_pelicula"), rs.getString("titulo"), rs.getInt("id_dir"),
+						rs.getString("pais"), rs.getString("duracion"), rs.getString("genero"));
+				misPelis.add(pelicula);
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				dao.closeDB();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return misPelis;
+	}
+
+	public ArrayList<Pelicula> listPeliDirectorGenero(int id_dir, String genero) {
+		misPelis = new ArrayList<Pelicula>();
+		String query = "Select * from pelicula where id_dir=? and genero = ?";
+
+		try {
+			pstmt = dao.connectDB().prepareStatement(query);
+			pstmt.setInt(1, id_dir);
+			pstmt.setString(2, genero);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				pelicula = new Pelicula(rs.getInt("id_pelicula"), rs.getString("titulo"), rs.getInt("id_dir"),
+						rs.getString("pais"), rs.getString("duracion"), rs.getString("genero"));
+				misPelis.add(pelicula);
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				dao.closeDB();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return misPelis;
+	}
+
 	public Pelicula findPeliByTitulo(String titulo, Director d) {
 		String query = "select * from pelicula where titulo = '" + titulo + "' and id_dir = " + d.getId();
 		try {
@@ -137,6 +216,18 @@ public class PeliculaDAO {
 			e.printStackTrace();
 		}
 		return pelicula;
+	}
+
+	public void deletePelicula(String titulo) {
+		String query = "delete from pelicula where titulo = ?";
+		try {
+			pstmt = dao.connectDB().prepareStatement(query);
+			pstmt.setString(1, titulo);
+			pstmt.executeUpdate();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

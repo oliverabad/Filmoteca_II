@@ -147,13 +147,9 @@ public class DirectorDAO {
 		String query = "delete from director where id_director = ?";
 		try {
 			pstmt = dao.connectDB().prepareStatement(query);
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-		try {
 			pstmt.setInt(1, d.getId());
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		try {

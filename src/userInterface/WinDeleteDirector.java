@@ -68,7 +68,7 @@ public class WinDeleteDirector extends JDialog {
 	private class BtnDeleteActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			director = gestion.selectItemDirector(comboBoxDirectores);
-			misPeliculas = peliDAO.listPeliDirector(director.getId());
+			misPeliculas = peliDAO.listPeliDirectorTitulo(director.getId());
 			if (misPeliculas == null || misPeliculas.isEmpty()) {
 				dirDAO.deleteDirector(director);
 				dispose();

@@ -28,8 +28,8 @@ public class WinUpdatePelicula extends JDialog {
 	private JLabel lblSelectTitulo;
 	private JComboBox comboBoxDirector;
 	private JComboBox comboBoxPelicula;
-	private String[] directores;
-	private String[] peliculas;
+	String[] directores;
+	String[] peliculas;
 	GestionUI gestion = new GestionUI();
 	Director director;
 	Pelicula pelicula;
@@ -49,7 +49,7 @@ public class WinUpdatePelicula extends JDialog {
 		directores = gestion.cargarDirector();
 		comboBoxDirector.setModel(new DefaultComboBoxModel(directores));
 		director = gestion.selectItemDirector(comboBoxDirector);
-		peliculas = gestion.cargarPelicula(director.getId());
+		peliculas = gestion.cargarPeliculaDirector(director.getId());
 		comboBoxPelicula.setModel(new DefaultComboBoxModel(peliculas));
 
 		comboBoxDirector.addItemListener(new java.awt.event.ItemListener() {
@@ -145,7 +145,7 @@ public class WinUpdatePelicula extends JDialog {
 	private class BtnUpdateActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			director = gestion.selectItemDirector(comboBoxDirector);
-			String titulo = gestion.selectItemDirPeli(comboBoxPelicula);
+			String titulo = gestion.selectItem(comboBoxPelicula);
 			pelicula = peliDAO.findPeliByTitulo(titulo, director);
 			pelicula.setTitulo(textTitulo.getText());
 			pelicula.setPais(textPais.getText());
@@ -159,7 +159,7 @@ public class WinUpdatePelicula extends JDialog {
 	private void dirPeliItemStateChange(java.awt.event.ItemEvent evt) {
 		if (evt.getStateChange() == ItemEvent.SELECTED) {
 			director = gestion.selectItemDirector(comboBoxDirector);
-			peliculas = gestion.cargarPelicula(director.getId());
+			peliculas = gestion.cargarPeliculaDirector(director.getId());
 			this.comboBoxPelicula.setModel(new DefaultComboBoxModel(peliculas));
 
 		}
