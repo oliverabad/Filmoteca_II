@@ -13,6 +13,7 @@ public class PeliculaDAO {
 	private AccesoDB dao = new AccesoDB();
 	Pelicula pelicula;
 	ArrayList<Pelicula> misPelis;
+	Director director;
 	Statement stmt;
 	PreparedStatement pstmt;
 	ResultSet rs;
@@ -62,6 +63,36 @@ public class PeliculaDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public ArrayList<String> directorPeliculas(int id) {
+		ArrayList<String> lista = new ArrayList<String>();
+		String query = "select d.nombre, d.apellidos, p.titulo, p.pais,p.duracion,p.genero from pelicula p "
+				+ "inner join director d on (p.id_dir=d.id_director) where d.id_director=?";
+		try {
+			// misPelis = listPeliDirector(d.getId());
+			pstmt = dao.connectDB().prepareStatement(query);
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String nombre = rs.getString("nombre");
+				String apellidos = rs.getString("apellidos");
+				String titulo = rs.getString("titulo");
+				String pais = rs.getString("pais");
+				String duracion = rs.getString("duracion");
+				String genero = rs.getString("genero");
+				lista.add(nombre);
+				lista.add(apellidos);
+				lista.add(titulo);
+				lista.add(pais);
+				lista.add(duracion);
+				lista.add(genero);
+			}
+
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		return lista;
 	}
 
 	public ArrayList<Pelicula> listPeliculas() {

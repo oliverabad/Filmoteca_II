@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import dao.DirectorDAO;
 import dao.PeliculaDAO;
 import entidades.Director;
 import entidades.Pelicula;
@@ -28,7 +29,9 @@ public class WinFindPelicula extends JDialog {
 	String[] generos;
 	String[] directores;
 	ArrayList<Pelicula> misPelis;
+	ArrayList<String> datosPelis;
 	PeliculaDAO peliDAO = new PeliculaDAO();
+	DirectorDAO dirDAO = new DirectorDAO();
 	Director directorItem;
 	String generoItem;
 
@@ -79,6 +82,7 @@ public class WinFindPelicula extends JDialog {
 				tblPelis = new JTable();
 				misPelis = peliDAO.listPeliculas();
 				gestion.construirTabla(tblPelis, scrollPane, gestion.cargarDatosJTable(misPelis));
+
 			} else if (comboBoxDirector.getSelectedIndex() != -1 & comboBoxGenero.getSelectedIndex() == -1) {
 				directorItem = gestion.selectItemDirector(comboBoxDirector);
 				tblPelis = new JTable();
@@ -98,6 +102,8 @@ public class WinFindPelicula extends JDialog {
 			} else {
 				JOptionPane.showMessageDialog(null, "Error al cargar datos!!!");
 			}
+			comboBoxDirector.setSelectedIndex(-1);
+			comboBoxGenero.setSelectedIndex(-1);
 		}
 	}
 }

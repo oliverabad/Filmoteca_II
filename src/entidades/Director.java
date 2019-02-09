@@ -19,6 +19,12 @@ public class Director {
 		this.apellidos = apellidos;
 	}
 
+	public Director(String nombre, String apellidos) {
+		super();
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+	}
+
 	public int getId() {
 		return id_director;
 	}

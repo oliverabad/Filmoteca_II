@@ -75,16 +75,36 @@ public class GestionUI {
 		miBarra.setViewportView(miTabla);
 	}
 
+	public void construirTabla2(JTable miTabla, JScrollPane miBarra, String[][] matrizDAO) {
+		String datos[] = { "Nombre", "Apellidos", "Titulo", "País", "Duración", "Género" };
+		matrizPelis = matrizDAO;
+
+		miTabla = new JTable(matrizPelis, datos);
+		miBarra.setViewportView(miTabla);
+	}
+
 	public String[][] cargarDatosJTable(ArrayList<Pelicula> listPeliculasDAO) {
-		misPeliculas = listPeliculasDAO;
-		matrizPelis = new String[misPeliculas.size()][6];
-		for (int i = 0; i < misPeliculas.size(); i++) {
-			matrizPelis[i][0] = misPeliculas.get(i).getId_pelicula() + "";
-			matrizPelis[i][1] = misPeliculas.get(i).getTitulo() + "";
-			matrizPelis[i][2] = misPeliculas.get(i).getId_dir() + "";
-			matrizPelis[i][3] = misPeliculas.get(i).getPais() + "";
-			matrizPelis[i][4] = misPeliculas.get(i).getDuracion() + "";
-			matrizPelis[i][5] = misPeliculas.get(i).getGenero() + "";
+		matrizPelis = new String[listPeliculasDAO.size()][6];
+		for (int i = 0; i < listPeliculasDAO.size(); i++) {
+			matrizPelis[i][0] = listPeliculasDAO.get(i).getId_pelicula() + "";
+			matrizPelis[i][1] = listPeliculasDAO.get(i).getTitulo() + "";
+			matrizPelis[i][2] = listPeliculasDAO.get(i).getId_dir() + "";
+			matrizPelis[i][3] = listPeliculasDAO.get(i).getPais() + "";
+			matrizPelis[i][4] = listPeliculasDAO.get(i).getDuracion() + "";
+			matrizPelis[i][5] = listPeliculasDAO.get(i).getGenero() + "";
+		}
+		return matrizPelis;
+	}
+
+	public String[][] cargarDatosJTable2(ArrayList<String> listPeliculasDAO) {
+		matrizPelis = new String[listPeliculasDAO.size()][6];
+		for (int i = 0; i < listPeliculasDAO.size(); i++) {
+			matrizPelis[i][0] = listPeliculasDAO.get(i).trim() + "";
+			matrizPelis[i][1] = listPeliculasDAO.get(i).trim() + "";
+			matrizPelis[i][2] = listPeliculasDAO.get(i).trim() + "";
+			matrizPelis[i][3] = listPeliculasDAO.get(i).trim() + "";
+			matrizPelis[i][4] = listPeliculasDAO.get(i).trim() + "";
+			matrizPelis[i][5] = listPeliculasDAO.get(i).trim() + "";
 		}
 		return matrizPelis;
 	}
